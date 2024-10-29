@@ -36,16 +36,9 @@ export class ButtonElement extends LitElement {
   @property({ type: String }) label: string = "";
   @property({ type: String }) variant: "primary" | "secondary" = "primary";
 
-  private handleClick() {
-    this.dispatchEvent(new Event("click"));
-  }
-
   protected render() {
     return html`
-      <button
-        class="button button--${this.variant}"
-        @click=${this.handleClick}
-      >
+      <button class="button button--${this.variant}">
         ${this.label}
       </button>
     `;

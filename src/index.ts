@@ -6,14 +6,16 @@
  */
 
 import { LitElement, html, css } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { customElement, property, state, query } from "lit/decorators.js";
 import type { CocktailsType } from "./types/cocktail-types";
+import type { ShowToast } from "./types/toast-manager-types";
 
 import "./components/search-bar";
 import "./components/cocktail-list";
 import "./components/button-element";
 import "./components/shopping-list";
 import "./components/separator-element";
+import "./components/toast-manager";
 
 const COCKTAILS_ENDPOINT = "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=";
 
@@ -22,6 +24,7 @@ export class AppRoot extends LitElement {
   @property({ type: Array }) cocktails: CocktailsType[] | undefined  = undefined;
   @property({ type: String }) error: string | null = null;
   @state() private shoppingList: Set<string> = new Set();
+  @query("toast-manager") private toastManager!: HTMLElement & ShowToast;
 
   static styles = css`
     .app-container {
@@ -64,20 +67,27 @@ export class AppRoot extends LitElement {
     for (const ingredient of ingredients) {
       this.shoppingList.add(ingredient);
     };
+
     this.requestUpdate();
+    this.toastManager.showToast("Ingredients added to shopping list.");
   }
 
   private async fetchCocktails(query: string) {
-    this.error = null;
-    this.cocktails = [];
-
     try {
+      this.error = null;
+      this.cocktails = [];
+      this.toastManager.showToast("Searching for cocktails...");
+
       const response = await fetch(COCKTAILS_ENDPOINT + query);
       const data = await response.json();
       this.cocktails = data.drinks || [];
+
+      const isEmpty = this.cocktails?.length === 0;
+      if (isEmpty) this.toastManager.showToast("No results found.");
+      if (!isEmpty) this.toastManager.showToast("Here are your results.");
     } catch (err: any) {
       this.error = err.message;
-      this.cocktails = undefined;
+      this.toastManager.showToast("An error occurred while fetching cocktails.");
     }
   }
 
@@ -104,6 +114,7 @@ export class AppRoot extends LitElement {
             .shoppingList=${Array.from(this.shoppingList)}
           ></shopping-list>
         </div>
+        <toast-manager></toast-manager>
       </div>
     `;
   }
