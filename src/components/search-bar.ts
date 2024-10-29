@@ -21,11 +21,11 @@ export class SearchBar extends LitElement {
     .search-bar {
       padding: 10px;
       text-align: left;
-      background-color: #f5f5f5;
-      border-radius: 4px;
+      background-color: var(--card-background-color);
+      border-radius: var(--border-radius);
       border-width: 1px;
       border-style: solid;
-      border-color: #e0e0e0;
+      border-color: var(--border-color);
       width: 100%;
     }
   `;

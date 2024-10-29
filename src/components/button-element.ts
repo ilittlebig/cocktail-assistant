@@ -14,7 +14,7 @@ export class ButtonElement extends LitElement {
     .button {
       padding: 10px 16px;
       border: none;
-      border-radius: 4px;
+      border-radius: var(--border-radius);
       cursor: pointer;
       transition: background-color 0.3s;
     }

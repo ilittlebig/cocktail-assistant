@@ -1,5 +1,5 @@
 /**
- * Global Styles (Mainly for Global Variables).
+ * Global Styles (Only for Global Variables).
  *
  * Author: Elias Sjödin
  * Created: 2024-10-29
@@ -7,7 +7,11 @@
 
 :root {
   --text-color: #252525;
-  --background-color: #f5f5f5;
+
   --primary-color: #007bff;
-  --secondary-color: #6c757d;
+  --secondary-color: #252525;
+  --card-background-color: #f5f5f5;
+
+  --border-color: #e0e0e0;
+  --border-radius: 4px;
 }

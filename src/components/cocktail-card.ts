@@ -16,21 +16,20 @@ export class CocktailCard extends LitElement {
       justify-content: space-between;
       gap: 32px;
       padding: 32px;
-      background-color: var(--background-color);
-      border-radius: 4px;
+      background-color: var(--card-background-color);
+      border-radius: var(--border-radius);
       border-width: 1px;
       border-style: solid;
-      border-color: #e0e0e0;
-      margin: 0;
+      border-color: var(--border-color);
     }
     .cocktail-content {
       display: flex;
       gap: 16px;
     }
     .cocktail-thumbnail img {
-      width: 170px;
+      width: 150px;
       height: auto;
-      border-radius: 4px;
+      border-radius: var(--border-radius);
     }
     .cocktail-details {
       display: flex;
