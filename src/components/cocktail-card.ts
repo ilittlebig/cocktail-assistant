@@ -60,6 +60,20 @@ export class CocktailCard extends LitElement {
       display: flex;
       justify-content: flex-end;
     }
+
+    @media (max-width: 1000px) {
+      .cocktail-card {
+        flex-direction: column;
+      }
+
+      .cocktail-content {
+        flex-direction: column;
+      }
+
+      .cocktail-thumbnail img {
+        width: 100px;
+      }
+    }
   `;
 
   private getInstructionSteps(instructions?: string): string[] {
