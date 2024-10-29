@@ -31,7 +31,7 @@ export class AppRoot extends LitElement {
       margin: 0;
     }
 
-    .a {
+    .content-container {
       display: flex;
       gap: 16px;
     }
@@ -40,9 +40,6 @@ export class AppRoot extends LitElement {
       display: flex;
       flex-direction: column;
       gap: 16px;
-    }
-
-    .shopping-list-container {
     }
 
     search-bar {
@@ -58,13 +55,13 @@ export class AppRoot extends LitElement {
       <div class="app-container">
         <h1 class="app-title">Cocktail Assistant</h1>
         <search-bar placeholder="Search for a cocktail..."></search-bar>
-        <div class="a">
+        <div class="content-container">
           <div class="cocktails-container">
             <cocktail-card imageSrc="https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg"></cocktail-card>
+            <cocktail-card imageSrc="https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg"></cocktail-card>
+            <cocktail-card imageSrc="https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg"></cocktail-card>
           </div>
-          <div class="shopping-list-container">
-            <shopping-list></shopping-list>
-          </div>
+          <shopping-list></shopping-list>
         </div>
       </div>
     `;
