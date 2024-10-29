@@ -4,6 +4,7 @@
   "main": "index.ts",
   "types": "cocktail-assistant.d.ts",
   "scripts": {
+    "start": "vite --open",
     "dev": "vite",
     "build": "tsc && vite build",
     "serve": "vite preview"
