@@ -57,8 +57,6 @@ export class AppRoot extends LitElement {
     cocktail-list {
       flex: 1;
       display: flex;
-      justify-content: center;
-      align-items: center;
     }
   `;
 
@@ -74,8 +72,6 @@ export class AppRoot extends LitElement {
 
   private async fetchCocktails(query: string) {
     try {
-      this.error = null;
-      this.cocktails = [];
       this.toastManager.showToast("Searching for cocktails...");
 
       const response = await fetch(COCKTAILS_ENDPOINT + query);

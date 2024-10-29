@@ -20,9 +20,19 @@ export class CockTailList extends LitElement {
       gap: 16px;
     }
     .message {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       color: var(--text-color);
       margin: 0;
       font-style: italic;
+      background-color: var(--card-background-color);
+      width: 100%;
+      height: 100%;
+      border-radius: var(--border-radius);
+      border: 1px;
+      border-style: solid;
+      border-color: var(--border-color);
     }
   `;
 
