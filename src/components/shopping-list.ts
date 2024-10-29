@@ -7,6 +7,7 @@
 
 import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { printHTMLContent } from "../utils/print-utils";
 
 @customElement("shopping-list")
 export class ShoppingList extends LitElement {
@@ -38,19 +39,47 @@ export class ShoppingList extends LitElement {
       color: var(--text-color);
       margin: 0;
     }
+    .empty-message {
+      color: var(--text-color);
+      font-style: italic;
+      margin: 0;
+      text-align: center;
+    }
   `;
+
+  private printShoppingList() {
+    const shoppingListHTML = `
+      <div>
+        <h3>Shopping List</h3>
+        <hr />
+        <ul>
+          ${this.shoppingList.map(ingredient => `<li>${ingredient}</li>`).join('')}
+        </ul>
+      </div>
+    `;
+    printHTMLContent(shoppingListHTML);
+  }
 
   protected render() {
     return html`
       <div class="shopping-list">
         <h3 class="shopping-list-title">Shopping List</h3>
         <separator-element></separator-element>
-        <div class="shopping-list-ingredients">
-          ${this.shoppingList.map(ingredient =>
-            html`<p class="shopping-list-ingredient">${ingredient}</p>`
-          )}
-        </div>
-        <button-element label="Print" variant="secondary"></button-element>
+
+        ${this.shoppingList.length ? html`
+          <div class="shopping-list-ingredients">
+            ${this.shoppingList.map(
+              ingredient => html`<p class="shopping-list-ingredient">${ingredient}</p>`
+            )}
+          </div>
+        ` : html`<p class="empty-message">Your shopping list is empty.</p>`}
+
+        <button-element
+          class="print-button"
+          label="Print"
+          variant="secondary"
+          @click=${this.printShoppingList}
+        ></button-element>
       </div>
     `;
   }

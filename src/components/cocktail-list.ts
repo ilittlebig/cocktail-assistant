@@ -22,6 +22,7 @@ export class CockTailList extends LitElement {
     .message {
       color: var(--text-color);
       margin: 0;
+      font-style: italic;
     }
   `;
 
