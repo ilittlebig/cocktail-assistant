@@ -6,7 +6,7 @@
  */
 
 import { LitElement, html, css } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 
 @customElement("search-bar")
 export class SearchBar extends LitElement {
@@ -31,13 +31,31 @@ export class SearchBar extends LitElement {
   `;
 
   @property({ type: String }) placeholder: string = "Search...";
+  @state() private query: string = "";
+
+  private handleInput(e: Event) {
+    this.query = (e.target as HTMLInputElement).value;
+  }
+
+  private handleSubmit(e: Event) {
+    e.preventDefault();
+    this.dispatchEvent(new CustomEvent("search", { detail: this.query }));
+  }
 
   protected render() {
     return html`
-      <div class="search-container">
-        <input class="search-bar" .placeholder=${this.placeholder} />
-        <button-element label="Search" variant="primary"></button-element>
-      </div>
+      <form class="search-container" @submit=${this.handleSubmit}>
+        <input
+          class="search-bar"
+          placeholder=${this.placeholder}
+          @input=${this.handleInput}
+        />
+        <button-element
+          label="Search"
+          variant="primary"
+          @click=${this.handleSubmit}
+        ></button-element>
+      </form>
     `;
   }
 }

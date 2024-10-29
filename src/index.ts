@@ -6,13 +6,15 @@
  */
 
 import { LitElement, html, css } from "lit";
-import { customElement } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 
 import "./components/search-bar";
-import "./components/cocktail-card";
+import "./components/cocktail-list";
 import "./components/button-element";
 import "./components/shopping-list";
 import "./components/separator-element";
+
+const COCKTAILS_ENDPOINT = "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=";
 
 @customElement("app-root")
 export class AppRoot extends LitElement {
@@ -34,12 +36,7 @@ export class AppRoot extends LitElement {
     .content-container {
       display: flex;
       gap: 16px;
-    }
-
-    .cocktails-container {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+      justify-content: space-between;
     }
 
     search-bar {
@@ -50,17 +47,41 @@ export class AppRoot extends LitElement {
     }
   `;
 
+  @property({ type: Array }) cocktails: any[] = [];
+  @property({ type: String }) error: string | null = null;
+
+  private async fetchCocktails(query: string) {
+    this.error = null;
+    this.cocktails = [];
+
+    try {
+      const response = await fetch(COCKTAILS_ENDPOINT + query);
+      const data = await response.json();
+      this.cocktails = data.drinks || [];
+    } catch (err: any) {
+      this.error = err.message;
+      this.cocktails = [];
+    }
+  }
+
   protected render() {
+    const handleSearch = async (e: CustomEvent) => {
+      const query = e.detail;
+      await this.fetchCocktails(query);
+    };
+
     return html`
       <div class="app-container">
         <h1 class="app-title">Cocktail Assistant</h1>
-        <search-bar placeholder="Search for a cocktail..."></search-bar>
+        <search-bar
+          placeholder="Search for a cocktail..."
+          @search=${handleSearch}
+        ></search-bar>
         <div class="content-container">
-          <div class="cocktails-container">
-            <cocktail-card imageSrc="https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg"></cocktail-card>
-            <cocktail-card imageSrc="https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg"></cocktail-card>
-            <cocktail-card imageSrc="https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg"></cocktail-card>
-          </div>
+          <cocktail-list
+            .cocktails=${this.cocktails}
+            .error=${this.error}
+          ></cocktail-list>
           <shopping-list></shopping-list>
         </div>
       </div>
