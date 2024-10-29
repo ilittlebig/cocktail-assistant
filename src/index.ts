@@ -19,7 +19,7 @@ const COCKTAILS_ENDPOINT = "https://www.thecocktaildb.com/api/json/v1/1/search.p
 
 @customElement("app-root")
 export class AppRoot extends LitElement {
-  @property({ type: Array }) cocktails: CocktailsType[] = [];
+  @property({ type: Array }) cocktails: CocktailsType[] | undefined  = undefined;
   @property({ type: String }) error: string | null = null;
   @state() private shoppingList: Set<string> = new Set();
 
@@ -39,9 +39,9 @@ export class AppRoot extends LitElement {
     }
 
     .content-container {
+      flex: 1;
       display: flex;
       gap: 16px;
-      justify-content: space-between;
     }
 
     search-bar {
@@ -49,6 +49,13 @@ export class AppRoot extends LitElement {
       width: 100%;
       margin: 0 auto;
       display: block;
+    }
+
+    cocktail-list {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   `;
 
@@ -70,7 +77,7 @@ export class AppRoot extends LitElement {
       this.cocktails = data.drinks || [];
     } catch (err: any) {
       this.error = err.message;
-      this.cocktails = [];
+      this.cocktails = undefined;
     }
   }
 

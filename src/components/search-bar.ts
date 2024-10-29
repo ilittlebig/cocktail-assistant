@@ -38,6 +38,7 @@ export class SearchBar extends LitElement {
   }
 
   private handleSubmit(e: Event) {
+    if (!this.query) return;
     e.preventDefault();
     this.dispatchEvent(new CustomEvent("search", { detail: this.query }));
   }

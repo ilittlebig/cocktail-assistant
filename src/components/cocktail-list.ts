@@ -26,12 +26,16 @@ export class CockTailList extends LitElement {
     }
   `;
 
-  @property({ type: Array }) cocktails: CocktailsType[] = [];
+  @property({ type: Array }) cocktails: CocktailsType[] | undefined = undefined;
   @property({ type: String }) error: string | null = null;
 
   protected render() {
     if (this.error) {
       return html`<p class="message">${this.error}</p>`;
+    }
+
+    if (!this.cocktails) {
+      return html`<p class="message">Start by searching for a cocktail above!</p>`;
     }
 
     if (this.cocktails.length === 0) {
