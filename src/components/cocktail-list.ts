@@ -7,6 +7,7 @@
 
 import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import type { Cocktail, CocktailsType } from "../types/cocktail-types";
 
 import "./cocktail-card";
 
@@ -24,7 +25,7 @@ export class CockTailList extends LitElement {
     }
   `;
 
-  @property({ type: Array }) cocktails: any[] = [];
+  @property({ type: Array }) cocktails: CocktailsType[] = [];
   @property({ type: String }) error: string | null = null;
 
   protected render() {
@@ -38,12 +39,10 @@ export class CockTailList extends LitElement {
 
     return html`
       <div class="cocktails-container">
-        ${this.cocktails.map(
-          (cocktail: any) =>
-            html`<cocktail-card
-              .imageSrc=${cocktail.strDrinkThumb}
-              .name=${cocktail.strDrink}
-            ></cocktail-card>`
+        ${this.cocktails.map((cocktail: Cocktail) => html`
+          <cocktail-card
+            .cocktail=${cocktail}
+          ></cocktail-card>`
         )}
       </div>
     `;

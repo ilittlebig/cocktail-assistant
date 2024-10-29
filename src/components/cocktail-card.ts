@@ -7,6 +7,7 @@
 
 import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import type { Cocktail } from "../types/cocktail-types";
 
 @customElement("cocktail-card")
 export class CocktailCard extends LitElement {
@@ -59,30 +60,30 @@ export class CocktailCard extends LitElement {
     }
   `;
 
-  @property({ type: String }) imageSrc: string = "";
+  @property({ type: Object }) cocktail: Cocktail = {};
+
+  private getInstructionSteps(instructions?: string): string[] {
+    return instructions
+      ? instructions.split(".").map(step => step.trim()).filter(Boolean)
+      : [];
+  }
 
   protected render() {
+    const { strDrink, strDrinkThumb, strInstructions } = this.cocktail;
+    const instructions = this.getInstructionSteps(strInstructions);
+
     return html`
       <div class="cocktail-card">
         <div class="cocktail-content">
           <div class="cocktail-thumbnail">
-            <img src=${this.imageSrc} alt="Cocktail image"></img>
+            <img src=${strDrinkThumb} alt="Cocktail image"></img>
           </div>
           <div class="cocktail-details">
-            <h3 class="cocktail-name">Margarita</h3>
+            <h3 class="cocktail-name">${strDrink}</h3>
             <ol class="cocktail-instructions">
-              <li class="cocktail-instruction">
-                Rub the rim of the glass with the lime slice to make the salt stick to it.
-              </li>
-              <li class="cocktail-instruction">
-                Rub the rim of the glass with the lime slice to make the salt stick to it.
-              </li>
-              <li class="cocktail-instruction">
-                Rub the rim of the glass with the lime slice to make the salt stick to it.
-              </li>
-              <li class="cocktail-instruction">
-                Rub the rim of the glass with the lime slice to make the salt stick to it.
-              </li>
+              ${instructions.map(
+                step => html`<li class="cocktail-instruction">${step}</li>`
+              )}
             </ol>
           </div>
         </div>

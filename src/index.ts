@@ -7,6 +7,7 @@
 
 import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import type { CocktailsType } from "./types/cocktail-types";
 
 import "./components/search-bar";
 import "./components/cocktail-list";
@@ -47,7 +48,7 @@ export class AppRoot extends LitElement {
     }
   `;
 
-  @property({ type: Array }) cocktails: any[] = [];
+  @property({ type: Array }) cocktails: CocktailsType[] = [];
   @property({ type: String }) error: string | null = null;
 
   private async fetchCocktails(query: string) {
