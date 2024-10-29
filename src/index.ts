@@ -11,22 +11,29 @@ import { customElement } from "lit/decorators.js";
 import "./components/search-bar";
 import "./components/cocktail-card";
 import "./components/button-element";
+import "./components/shopping-list";
+import "./components/separator-element";
 
 @customElement("app-root")
 export class AppRoot extends LitElement {
   static styles = css`
-    .app-title {
-      color: var(--text-color);
-      text-align: center;
-      margin: 0;
-    }
     .app-container {
       display: flex;
       flex-direction: column;
       gap: 32px;
       margin: 0 auto;
       padding: 64px;
-      max-width: 900px;
+      max-width: 1000px;
+    }
+    .app-title {
+      color: var(--text-color);
+      text-align: center;
+      margin: 0;
+    }
+
+    .a {
+      display: flex;
+      gap: 16px;
     }
 
     .cocktails-container {
@@ -51,11 +58,12 @@ export class AppRoot extends LitElement {
       <div class="app-container">
         <h1 class="app-title">Cocktail Assistant</h1>
         <search-bar placeholder="Search for a cocktail..."></search-bar>
-        <div>
+        <div class="a">
           <div class="cocktails-container">
             <cocktail-card imageSrc="https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg"></cocktail-card>
           </div>
           <div class="shopping-list-container">
+            <shopping-list></shopping-list>
           </div>
         </div>
       </div>
