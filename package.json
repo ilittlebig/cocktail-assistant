@@ -1,0 +1,24 @@
+{
+  "name": "cocktail-assistant",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "types": "cocktail-assistant.d.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "haunted": "^5.0.0",
+    "lit-html": "^3.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.8.2",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.10"
+  }
+}
