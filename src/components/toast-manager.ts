@@ -38,12 +38,43 @@ export class ToastManager extends LitElement {
       transition: transform 0.3s ease, opacity 0.3s ease;
       width: fit-content;
     }
+    .toast.leaving {
+      animation: fadeOutDown 0.3s forwards;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 0.9;
+        transform: translateY(0);
+      }
+    }
+    @keyframes fadeOutDown {
+      from {
+        opacity: 0.9;
+        transform: translateY(0);
+      }
+      to {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+    }
   `;
 
   showToast(message: string, timeout: number = 3000) {
     const id = Date.now();
-    this.toasts = [...this.toasts, { id, message, timeout }];
-    setTimeout(() => this.removeToast(id), timeout)
+    this.toasts = [...this.toasts, { id, message, timeout, isLeaving: false }];
+    setTimeout(() => this.startToastRemoval(id), timeout);
+  }
+
+  private startToastRemoval(id: number) {
+    this.toasts = this.toasts.map(toast =>
+      toast.id === id ? { ...toast, isLeaving: true } : toast
+    );
+    setTimeout(() => this.removeToast(id), 300);
   }
 
   private removeToast(id: number) {
@@ -55,7 +86,9 @@ export class ToastManager extends LitElement {
       <div class="toast-container">
         ${this.toasts.map(
           toast => html`
-            <div class="toast">${toast.message}</div>
+            <div class="toast ${toast.isLeaving ? 'leaving' : ''}">
+              ${toast.message}
+            </div>
           `
         )}
       </div>
