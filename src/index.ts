@@ -6,7 +6,7 @@
  */
 
 import { LitElement, html, css } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import type { CocktailsType } from "./types/cocktail-types";
 
 import "./components/search-bar";
@@ -19,6 +19,10 @@ const COCKTAILS_ENDPOINT = "https://www.thecocktaildb.com/api/json/v1/1/search.p
 
 @customElement("app-root")
 export class AppRoot extends LitElement {
+  @property({ type: Array }) cocktails: CocktailsType[] = [];
+  @property({ type: String }) error: string | null = null;
+  @state() private shoppingList: Set<string> = new Set();
+
   static styles = css`
     .app-container {
       display: flex;
@@ -48,8 +52,13 @@ export class AppRoot extends LitElement {
     }
   `;
 
-  @property({ type: Array }) cocktails: CocktailsType[] = [];
-  @property({ type: String }) error: string | null = null;
+  private addIngredientsToShoppingList(e: CustomEvent) {
+    const ingredients: string[] = e.detail;
+    for (const ingredient of ingredients) {
+      this.shoppingList.add(ingredient);
+    };
+    this.requestUpdate();
+  }
 
   private async fetchCocktails(query: string) {
     this.error = null;
@@ -82,8 +91,11 @@ export class AppRoot extends LitElement {
           <cocktail-list
             .cocktails=${this.cocktails}
             .error=${this.error}
+            @addToShoppingList=${this.addIngredientsToShoppingList}
           ></cocktail-list>
-          <shopping-list></shopping-list>
+          <shopping-list
+            .shoppingList=${Array.from(this.shoppingList)}
+          ></shopping-list>
         </div>
       </div>
     `;

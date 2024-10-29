@@ -6,10 +6,12 @@
  */
 
 import { LitElement, html, css } from "lit";
-import { customElement } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 
 @customElement("shopping-list")
 export class ShoppingList extends LitElement {
+  @property({ type: Array }) shoppingList: string[] = [];
+
   static styles = css`
     .shopping-list {
       display: flex;
@@ -44,10 +46,9 @@ export class ShoppingList extends LitElement {
         <h3 class="shopping-list-title">Shopping List</h3>
         <separator-element></separator-element>
         <div class="shopping-list-ingredients">
-          <p class="shopping-list-ingredient">Bottle of Rum</p>
-          <p class="shopping-list-ingredient">Bottle of Rum</p>
-          <p class="shopping-list-ingredient">Bottle of Rum</p>
-          <p class="shopping-list-ingredient">Bottle of Rum</p>
+          ${this.shoppingList.map(ingredient =>
+            html`<p class="shopping-list-ingredient">${ingredient}</p>`
+          )}
         </div>
         <button-element label="Print" variant="secondary"></button-element>
       </div>

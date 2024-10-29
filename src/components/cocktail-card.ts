@@ -11,6 +11,8 @@ import type { Cocktail } from "../types/cocktail-types";
 
 @customElement("cocktail-card")
 export class CocktailCard extends LitElement {
+  @property({ type: Object }) cocktail: Cocktail = {};
+
   static styles = css`
     .cocktail-card {
       display: flex;
@@ -60,12 +62,36 @@ export class CocktailCard extends LitElement {
     }
   `;
 
-  @property({ type: Object }) cocktail: Cocktail = {};
-
   private getInstructionSteps(instructions?: string): string[] {
     return instructions
       ? instructions.split(".").map(step => step.trim()).filter(Boolean)
       : [];
+  }
+
+  private handleAddToShoppingList() {
+    const ingredients = [
+      this.cocktail.strIngredient1,
+      this.cocktail.strIngredient2,
+      this.cocktail.strIngredient3,
+      this.cocktail.strIngredient4,
+      this.cocktail.strIngredient5,
+      this.cocktail.strIngredient6,
+      this.cocktail.strIngredient7,
+      this.cocktail.strIngredient8,
+      this.cocktail.strIngredient9,
+      this.cocktail.strIngredient10,
+      this.cocktail.strIngredient11,
+      this.cocktail.strIngredient12,
+      this.cocktail.strIngredient13,
+      this.cocktail.strIngredient14,
+      this.cocktail.strIngredient15,
+    ].filter(Boolean);
+
+    this.dispatchEvent(new CustomEvent("addToShoppingList", {
+      detail: ingredients,
+      composed: true,
+      bubbles: true,
+    }));
   }
 
   protected render() {
@@ -88,7 +114,11 @@ export class CocktailCard extends LitElement {
           </div>
         </div>
         <div class="button-container">
-          <button-element label="+" variant="primary"></button-element>
+          <button-element
+            label="+"
+            variant="primary"
+            @click=${this.handleAddToShoppingList}
+          ></button-element>
         </div>
       </div>
     `;
