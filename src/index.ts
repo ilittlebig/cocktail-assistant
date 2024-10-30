@@ -70,6 +70,13 @@ export class AppRoot extends LitElement {
     this.toastManager.showToast("Ingredients added to shopping list.");
   }
 
+  private removeIngredientFromShoppingList(e: CustomEvent) {
+    const ingredient: string = e.detail;
+    this.shoppingList.delete(ingredient);
+    this.requestUpdate();
+    this.toastManager.showToast("Ingredient removed from shopping list.");
+  }
+
   private async fetchCocktails(query: string) {
     try {
       this.toastManager.showToast("Searching for cocktails...");
@@ -108,6 +115,7 @@ export class AppRoot extends LitElement {
           ></cocktail-list>
           <shopping-list
             .shoppingList=${Array.from(this.shoppingList)}
+            @removeFromShoppingList=${this.removeIngredientFromShoppingList}
           ></shopping-list>
         </div>
         <toast-manager></toast-manager>

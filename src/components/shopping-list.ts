@@ -9,6 +9,8 @@ import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { printHTMLContent } from "../utils/print-utils";
 
+import "./shopping-list-ingredient";
+
 @customElement("shopping-list")
 export class ShoppingList extends LitElement {
   @property({ type: Array }) shoppingList: string[] = [];
@@ -34,10 +36,6 @@ export class ShoppingList extends LitElement {
       display: flex;
       flex-direction: column;
       gap: 8px;
-    }
-    .shopping-list-ingredient {
-      color: var(--text-color);
-      margin: 0;
     }
     .empty-message {
       color: var(--text-color);
@@ -69,7 +67,7 @@ export class ShoppingList extends LitElement {
         ${this.shoppingList.length ? html`
           <div class="shopping-list-ingredients">
             ${this.shoppingList.map(
-              ingredient => html`<p class="shopping-list-ingredient">${ingredient}</p>`
+              ingredient => html`<shopping-list-ingredient ingredient=${ingredient}></shopping-list-ingredient>`
             )}
           </div>
         ` : html`<p class="empty-message">Your shopping list is empty.</p>`}
