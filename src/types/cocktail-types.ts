@@ -6,12 +6,8 @@
  */
 
 export interface Cocktail {
-  idDrink?: string;
   strDrink?: string;
   strDrinkThumb?: string;
-  strCategory?: string;
-  strAlcoholic?: string;
-  strGlass?: string;
   strInstructions?: string;
 
   strIngredient1?: string;

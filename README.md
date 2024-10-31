@@ -1,5 +1,5 @@
 # Cocktail Assistant
-A tiny app to help gather a shopping list for multiple cocktails, built with `lit-element`.
+A tiny app to help gather a shopping list for multiple cocktails, built with `lit-html` and `haunted`.
 
 ### Features
 - Search bar with a submit button to find cocktails.

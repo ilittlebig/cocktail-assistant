@@ -5,136 +5,121 @@
  * Created: 2024-10-29
  */
 
-import { LitElement, html, css } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { html } from "lit-html";
+import { component } from "haunted";
+import { useCocktail } from "../hooks/useCocktail";
 import type { Cocktail } from "../types/cocktail-types";
 
-@customElement("cocktail-card")
-export class CocktailCard extends LitElement {
-  @property({ type: Object }) cocktail: Cocktail = {};
+import "./button-element";
 
-  static styles = css`
-    .cocktail-card {
-      display: flex;
-      justify-content: space-between;
-      gap: 32px;
-      padding: 32px;
-      background-color: var(--card-background-color);
-      border-radius: var(--border-radius);
-      border-width: 1px;
-      border-style: solid;
-      border-color: var(--border-color);
-    }
-    .cocktail-content {
-      display: flex;
-      gap: 16px;
-    }
-    .cocktail-thumbnail img {
-      width: 150px;
-      height: auto;
-      border-radius: var(--border-radius);
-    }
-    .cocktail-details {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .cocktail-instructions {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin: 0;
-      padding: 0 0 0 16px;
-    }
-    .cocktail-name {
-      color: var(--text-color);
-      margin: 0;
-    }
-    .cocktail-instruction {
-      color: var(--text-color);
-      margin: 0;
-    }
+interface CocktailCardProps {
+  cocktail: Cocktail;
+}
 
-    .button-container {
-      margin-top: auto;
-      display: flex;
-      justify-content: flex-end;
-    }
+const CocktailCard = ({ cocktail }: CocktailCardProps) => {
+  const { addIngredientsToShoppingList } = useCocktail();
+  const { strDrink, strDrinkThumb, strInstructions } = cocktail;
 
-    @media (max-width: 1000px) {
+  const instructions = strInstructions
+    ? strInstructions.split(".").map(step => step.trim()).filter(Boolean)
+    : [];
+
+  const handleAddToShoppingList = () => {
+    const ingredients: string[] = [];
+    for (let i = 0; i <= 15; i++) {
+      const ingredient = cocktail[`strIngredient${i}` as keyof typeof cocktail];
+      if (ingredient) ingredients.push(ingredient);
+    }
+    addIngredientsToShoppingList(ingredients);
+  }
+
+  return html`
+    <style>
       .cocktail-card {
-        flex-direction: column;
+        display: flex;
+        justify-content: space-between;
+        gap: 32px;
+        padding: 32px;
+        background-color: var(--card-background-color);
+        border-radius: var(--border-radius);
+        border-width: 1px;
+        border-style: solid;
+        border-color: var(--border-color);
       }
-
       .cocktail-content {
-        flex-direction: column;
+        display: flex;
+        gap: 16px;
       }
-
       .cocktail-thumbnail img {
-        width: 100px;
+        width: 150px;
+        height: auto;
+        border-radius: var(--border-radius);
       }
-    }
-  `;
+      .cocktail-details {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .cocktail-instructions {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin: 0;
+        padding: 0 0 0 16px;
+      }
+      .cocktail-name {
+        color: var(--text-color);
+        margin: 0;
+      }
+      .cocktail-instruction {
+        color: var(--text-color);
+        margin: 0;
+      }
 
-  private getInstructionSteps(instructions?: string): string[] {
-    return instructions
-      ? instructions.split(".").map(step => step.trim()).filter(Boolean)
-      : [];
-  }
+      .button-container {
+        margin-top: auto;
+        display: flex;
+        justify-content: flex-end;
+      }
 
-  private handleAddToShoppingList() {
-    const ingredients = [
-      this.cocktail.strIngredient1,
-      this.cocktail.strIngredient2,
-      this.cocktail.strIngredient3,
-      this.cocktail.strIngredient4,
-      this.cocktail.strIngredient5,
-      this.cocktail.strIngredient6,
-      this.cocktail.strIngredient7,
-      this.cocktail.strIngredient8,
-      this.cocktail.strIngredient9,
-      this.cocktail.strIngredient10,
-      this.cocktail.strIngredient11,
-      this.cocktail.strIngredient12,
-      this.cocktail.strIngredient13,
-      this.cocktail.strIngredient14,
-      this.cocktail.strIngredient15,
-    ].filter(Boolean);
+      @media (max-width: 1000px) {
+        .cocktail-card {
+          flex-direction: column;
+        }
 
-    this.dispatchEvent(new CustomEvent("addToShoppingList", {
-      detail: ingredients,
-      composed: true,
-      bubbles: true,
-    }));
-  }
+        .cocktail-content {
+          flex-direction: column;
+        }
 
-  protected render() {
-    const { strDrink, strDrinkThumb, strInstructions } = this.cocktail;
-    const instructions = this.getInstructionSteps(strInstructions);
+        .cocktail-thumbnail img {
+          width: 100px;
+        }
+      }
+    </style>
 
-    return html`
-      <div class="cocktail-card">
-        <div class="cocktail-content">
-          <div class="cocktail-thumbnail">
-            <img src=${strDrinkThumb} alt="Cocktail image"></img>
-          </div>
-          <div class="cocktail-details">
-            <h3 class="cocktail-name">${strDrink}</h3>
-            <ol class="cocktail-instructions">
-              ${instructions.map(
-                step => html`<li class="cocktail-instruction">${step}</li>`
-              )}
-            </ol>
-          </div>
+    <div class="cocktail-card">
+      <div class="cocktail-content">
+        <div class="cocktail-thumbnail">
+          <img src=${strDrinkThumb} alt="Cocktail image"></img>
         </div>
-        <div class="button-container">
-          <button-element
-            label="+"
-            variant="primary"
-            @click=${this.handleAddToShoppingList}
-          ></button-element>
+        <div class="cocktail-details">
+          <h3 class="cocktail-name">${strDrink}</h3>
+          <ol class="cocktail-instructions">
+            ${instructions.map(
+              step => html`<li class="cocktail-instruction">${step}</li>`
+            )}
+          </ol>
         </div>
       </div>
-    `;
-  }
+      <div class="button-container">
+        <button-element
+          .label=${"+"}
+          .variant=${"primary"}
+          @click=${handleAddToShoppingList}
+        ></button-element>
+      </div>
+    </div>
+  `;
 }
+
+customElements.define("cocktail-card", component(CocktailCard));

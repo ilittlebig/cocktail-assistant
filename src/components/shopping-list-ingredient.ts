@@ -5,39 +5,36 @@
  * Created: 2024-10-30
  */
 
-import { LitElement, html, css } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { html } from "lit-html";
+import { component } from "haunted";
+import { useCocktail } from "../hooks/useCocktail";
 
-@customElement("shopping-list-ingredient")
-export class ShoppingListIngredient extends LitElement {
-  @property({ type: String }) ingredient: string = "";
-
-  static styles = css`
-    .shopping-list-ingredient {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .a {
-      color: var(--text-color);
-      margin: 0;
-    }
-  `;
-
-  private handleClick() {
-    this.dispatchEvent(new CustomEvent("removeFromShoppingList", {
-      detail: this.ingredient,
-      composed: true,
-      bubbles: true,
-    }));
-  }
-
-  protected render() {
-    return html`
-      <div class="shopping-list-ingredient">
-        <p class="a">${this.ingredient}</p>
-        <button class="ab" @click=${this.handleClick}>x</button>
-      </div>
-    `;
-  }
+interface ShoppingListIngredientProps {
+  ingredient: string;
 }
+
+const ShoppingListIngredient = ({ ingredient }: ShoppingListIngredientProps) => {
+  const { removeIngredientFromShoppingList } = useCocktail();
+  const handleClick = () => removeIngredientFromShoppingList(ingredient);
+
+  return html`
+    <style>
+      .shopping-list-ingredient {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .ingredient-label {
+        color: var(--text-color);
+        margin: 0;
+      }
+    </style>
+
+    <div class="shopping-list-ingredient">
+      <p class="ingredient-label">${ingredient}</p>
+      <button @click=${handleClick}>x</button>
+    </div>
+  `;
+}
+
+customElements.define("shopping-list-ingredient", component(ShoppingListIngredient));

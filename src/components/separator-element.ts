@@ -5,21 +5,19 @@
  * Created: 2024-10-29
  */
 
-import { LitElement, html, css } from "lit";
-import { customElement } from "lit/decorators.js";
+import { html } from "lit-html";
+import { component } from "haunted";
 
-@customElement("separator-element")
-export class SeparatorElement extends LitElement {
-  static styles = css`
-    .separator {
-      background-color: var(--border-color);
-      margin: 0;
-    }
+const SeparatorElement = () => {
+  return html`
+    <style>
+      .separator {
+        background-color: var(--border-color);
+        margin: 0;
+      }
+    </style>
+    <hr class="separator"></hr>
   `;
-
-  protected render() {
-    return html`
-      <hr class="separator"></hr>
-    `;
-  }
 }
+
+customElements.define("separator-element", component(SeparatorElement));
