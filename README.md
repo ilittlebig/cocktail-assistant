@@ -1,5 +1,5 @@
 # Cocktail Assistant
-A tiny app to help gather a shopping list for multiple cocktails, built with `lit-html`.
+A tiny app to help gather a shopping list for multiple cocktails, built with `lit-element`.
 
 ### Features
 - Search bar with a submit button to find cocktails.
@@ -10,14 +10,14 @@ A tiny app to help gather a shopping list for multiple cocktails, built with `li
 
 ### Usage
 1. Clone the repository:
-   ```bash
-   git clone https://github.com/ilittlebig/cocktail-assistant.git
-   ```
+```bash
+git clone https://github.com/ilittlebig/cocktail-assistant.git
+```
 2. Install dependencies:
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
 3. Start the app:
-   ```bash
-   npm start
-   ```
+```bash
+npm start
+```
